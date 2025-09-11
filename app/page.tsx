@@ -1,58 +1,24 @@
-import { MovieCard } from "@/components/home";
+import { MovieCard, MoviesContainer } from "@/components/home";
 import { MovieCarousel } from "@/components/main/";
-
-type MovieType = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  vote_average: number;
-};
-
-type movieResponseType = {
-  page: number;
-  totalPages: number;
-  results: MovieType[];
-};
+import { movieResponseType } from "@/types";
+import { getMoviesList } from "@/utils/get-data";
 
 export default async function Home() {
-  const getUpcomingMovies = async () => {
-    const res = await fetch(
-      "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
-      {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${process.env.TMDB_ACCESS_KEY}`,
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  };
-
-  const upcomingMovies: movieResponseType = await getUpcomingMovies();
+  const upcomingMovies: movieResponseType = await getMoviesList("upcoming");
+  const popularMovies: movieResponseType = await getMoviesList("popular");
+  const topRatedMovies: movieResponseType = await getMoviesList("top_rated");
+  const nowPlayingMovies: movieResponseType = await getMoviesList(
+    "now_playing"
+  );
 
   console.log(upcomingMovies);
 
   return (
     <div>
-      <MovieCarousel />
-      <div className="flex gap-4 flex-wrap">
-        {upcomingMovies.results.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            title={movie.title}
-            score={movie.vote_average}
-            image={movie.poster_path}
-          />
-        ))}
-      </div>
+      <MovieCarousel movies={nowPlayingMovies.results} />
+      <MoviesContainer movies={upcomingMovies.results} title="Upcoming" />
+      <MoviesContainer movies={popularMovies.results} title="Popular" />
+      <MoviesContainer movies={topRatedMovies.results} title="Top Rated" />
     </div>
   );
 }
