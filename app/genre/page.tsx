@@ -3,19 +3,22 @@ import { movieResponseType } from "@/types";
 import { getMoviesByGenreId } from "@/utils/get-data";
 
 type GenrePageProps = {
-  searchParams: Promise<{ id: string }>;
+  searchParams: Promise<{ id: string; name: string; page: string }>;
 };
 
 const Genre = async ({ searchParams }: GenrePageProps) => {
   const params = await searchParams;
   const id = params.id;
+  const name = params.name;
+  const page = params.page || "1";
 
   const filteredMoviesResponse: movieResponseType = await getMoviesByGenreId(
-    id
+    id,
+    page
   );
-  console.log("FILTERDSEN KINONUUD", filteredMoviesResponse);
   return (
     <div>
+      {name}
       <div className="flex flex-wrap gap-3">
         {filteredMoviesResponse.results.slice(0, 10).map((movie) => (
           <MovieCard
