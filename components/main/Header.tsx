@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { ThemeToggler } from "../home";
 import { Input } from "../ui/input";
 import { GenreDropdown } from "./GenreDropdown";
+import { SearchSection } from "./SearchSection";
 
 export const Header = () => {
   return (
@@ -14,7 +15,7 @@ export const Header = () => {
           <GenreDropdown />
           <div className="flex items-center">
             <Search className="-mr-8" />
-            <Input className="pl-10" placeholder="Search.." />
+            <SearchSection />
           </div>
         </div>
         <div>
