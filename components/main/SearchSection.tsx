@@ -18,7 +18,7 @@ export const SearchSection = () => {
     null
   );
   const [isOpen, setIsOpen] = useState(false);
-  const handleChange = async (e) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchValue(value);
     const foundData = await getSearchedMovies(value);
