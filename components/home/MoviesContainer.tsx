@@ -1,15 +1,27 @@
 import { MovieType } from "@/types";
 import { MovieCard } from "./MovieCard";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 type MoviesContainerProps = {
   movies: MovieType[];
   title: string;
+  link: string;
 };
 
-export const MoviesContainer = ({ movies, title }: MoviesContainerProps) => {
+export const MoviesContainer = ({
+  movies,
+  title,
+  link,
+}: MoviesContainerProps) => {
   return (
     <div>
-      <h2 className="text-3xl font-bold">{title}</h2>
+      <div className="flex w-full justify-between">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        <Link className="flex items-center gap-2" href={`/more?title=${link}`}>
+          <span>See more</span> <ChevronRight />
+        </Link>
+      </div>
       <div className="flex gap-4 flex-wrap">
         {movies.slice(0, 10).map((movie) => (
           <MovieCard
